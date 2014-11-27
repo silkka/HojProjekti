@@ -1,4 +1,4 @@
-package com.tekijat.summauspalvelu;
+package com.loupelpir.summauspalvelu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 /**
  * Hoitaa yhteyden avaamisen sumHandlerille.
- * @author Antti Peltola
  *
  */
 public class SumServer extends Thread{
@@ -25,7 +24,7 @@ public class SumServer extends Thread{
 		this.sumData = sumData;
 	}
 	/**
-	 * Avaa serverSocketin konstruktorissa annettuun porttiin ja saadessaan yhteyden, luo uuden 
+	 * Avaa serverSocketin konstruktorissa annettuun porttiin ja saadessaan yhteyden luo uuden 
 	 * SumHandlerin ja v‰litt‰‰ sille socketin.
 	 */
 	public void run(){
@@ -45,7 +44,6 @@ public class SumServer extends Thread{
 }
 /**
  * V‰litt‰‰ soketilta saamansa alkiot annettulle sumData-oliolle ja p‰‰tt‰‰ yhteyden saatuaan nollan tai end of linen.
- * @author Silkka
  */
 class SumHandler extends Thread{
 	private final Socket client;

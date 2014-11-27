@@ -1,14 +1,15 @@
-package com.tekijat.summauspalvelu;
+package com.loupelpir.summauspalvelu;
 /**
  * Säilöö summan ja sen alkioiden määrän. Kunkin metodin aikana luokka asetetaan synchronized tilaan,
  * jottei samanaista lukua ja kirjoitusta tapahtuisi.
- * @author Antti Peltola
  */
 public class SumData {
 	
 	private int sum;
 	private int numberOfsums;
-	
+	/**
+	 * Alustaa luokan.
+	 */
 	public SumData(){
 		this.sum = 0;
 		this.numberOfsums = 0;
@@ -16,7 +17,6 @@ public class SumData {
 	/**
 	 * Lisää summaan arvon value.
 	 * @param value value != null
-	 * @.post getSum() = OLD.getSum() + value
 	 */
 	public void addSum(int value){
 		synchronized (this) {

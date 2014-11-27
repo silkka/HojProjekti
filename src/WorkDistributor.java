@@ -8,7 +8,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-
+/**
+ * Ei muutoksia alkuperäiseen.
+ *
+ */
 public class WorkDistributor {
 
 	public static final int PORT = 3126;
@@ -57,7 +60,10 @@ public class WorkDistributor {
 		} catch (InterruptedIOException e) {
 		}
 	} // main
-
+/**
+ * Ei muutoksia alkuperäiseen.
+ * 
+ */
 	static class WorkDistributionHandler extends Thread {
 		public static final int MAXCLIENTS = 10;
 		private final int clientPort;

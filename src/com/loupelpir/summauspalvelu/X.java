@@ -1,4 +1,4 @@
-package com.tekijat.summauspalvelu;
+package com.loupelpir.summauspalvelu;
 
 
 import java.io.EOFException;
@@ -19,7 +19,6 @@ import java.util.TimerTask;
 
 /**
  * Hoitaa keskustelun avaamisen WorkDistributorin kanssa.
- * @author Antti Peltola
  *
  */
 
@@ -29,8 +28,8 @@ public class X {
 	private static final int MY_PORT = 3127;
 	
 	/**
-	 * Välittää udp paketin WorkDistrinbutorille, avaa ServerSokectin ja yhteyden avauduttua välittää
-	 * Socketin XHandlerille. Jos yhdeyden ottoa ei tule viiden sekuninnin kuluessa lähetetään uusi paketti.
+	 * Välittää UDP-paketin WorkDistrinbutorille, avaa ServerSokectin ja yhteyden avauduttua välittää
+	 * Socketin XHandlerille. Jos yhdeydenottoa ei tule viiden sekunnin kuluessa, lähetetään uusi paketti.
 	 * (Yrityksiä 5 kpl) 
 	 * @param args args[0] == WorkDistributorin IPv4-osoite(Oletus: localhost) args[1] == WorkDistributorin portti (Oletus: 3126) 
 	 * 
@@ -84,12 +83,11 @@ public class X {
 }
 /**
  * Ylläpittää yhteyttä WorkDistributorin kanssa tehtävän määrittelyn mukaisilla toimenpiteillä.
- * @author Silkka
  *
  */
 class XHandler extends Thread{
 	
-	private static final int SUM_HANDLER_WAIT_TIME = 200;
+	private static final int SUM_HANDLER_WAIT_TIME = 500;
 	private static final int STARTING_PORT = 3128;
 	private final Socket client;
 	private InputStream iS;
@@ -119,7 +117,7 @@ class XHandler extends Thread{
 			oS = client.getOutputStream();
 			oOut = new ObjectOutputStream(oS);
 			oIn = new ObjectInputStream(iS);
-			//Giving WorkDistributor 5 sec to send the number of sum handlers. If no --> Send -1 and terminate connection.
+			//Give WorkDistributor 5 sec to send the number of sum handlers. If not --> Send -1 and terminate connection.
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
@@ -138,7 +136,7 @@ class XHandler extends Thread{
 			
 			int numberOFSumHandlers = oIn.readInt();
 			
-			timer.cancel();//If WorkDistributor responded in time then there is no need to terminate --> cancel.
+			timer.cancel();//If WorkDistributor responds in time then there is no need to terminate --> cancel.
 			
 			System.out.println("Number of requested sum handlers: " + numberOFSumHandlers);
 			
@@ -153,7 +151,7 @@ class XHandler extends Thread{
 			}
 			//Waiting for sum handlers to get ready.
 			Thread.sleep(1000);
-			//Send sum handler ports to WorkDistribution
+			//Send sum handler ports to WorkDistributor.
 			for(int i = 0; i<numberOFSumHandlers;i++){
 				oOut.writeInt(portNumbers[i]);
 				oOut.flush();
@@ -226,13 +224,13 @@ class XHandler extends Thread{
 				}
 				
 			}
-			//Received 0 or reached end of file ---> terminate connection
+			//Received 0 or reached end of file ---> terminate connection.
 			closeConnections();
 
 
 		}
 		catch(SocketTimeoutException e){
-			//No connection from Workdistributor in 60 sec
+			//No connection from Workdistributor in 60 sec.
 			System.out.println("Socket timeout (60 sec)");
 		}
 		catch (Exception e) {
